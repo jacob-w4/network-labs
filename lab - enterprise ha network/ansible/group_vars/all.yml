@@ -1,0 +1,12 @@
+---
+dns_servers:
+  - 8.8.8.8
+  - 1.1.1.1
+
+ntp_servers:
+  - server: time.google.com
+    prefer: true
+  - server: time.cloudflare.com
+  - server: time.windows.com
+
+syslog_server_ip: 10.1.30.150

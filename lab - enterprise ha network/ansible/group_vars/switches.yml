@@ -1,0 +1,3 @@
+---
+ntp_source_interface: Vlan99
+syslog_source_interface: Vlan99
