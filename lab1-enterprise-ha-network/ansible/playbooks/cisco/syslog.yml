@@ -9,7 +9,8 @@
           hosts: 
             - host: "{{ syslog_server_ip }}" 
           trap: "informational"
-          source_interface: "{{ syslog_source_interface }}"
+          source_interface: 
+            - interface: "{{ syslog_source_interface }}"
         state: replaced
 
     - name: Save running to startup when changed
