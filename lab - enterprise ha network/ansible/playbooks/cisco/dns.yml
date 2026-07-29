@@ -1,0 +1,8 @@
+---
+- hosts: cisco
+  become: yes
+
+  tasks:
+    - name: Configure DNS on Cisco devices
+      cisco.ios.ios_system:
+        name_servers: "{{ dns_servers }}"

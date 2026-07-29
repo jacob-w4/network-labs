@@ -1,0 +1,13 @@
+---
+- hosts: cisco
+  become: yes
+
+  tasks:
+    - name: Configure Syslog on Cisco devices
+      cisco.ios.ios_logging_global:
+        config:
+          hosts: 
+            - host: "{{ syslog_server_ip }}"
+          trap: "informational"
+          source_interface: "{{ syslog_source_interface }}"
+          userinfo: true

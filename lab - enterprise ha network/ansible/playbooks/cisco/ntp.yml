@@ -1,0 +1,11 @@
+---
+- hosts: cisco
+  become: yes
+
+  tasks:
+    - name: Configure NTP on Cisco devices
+      cisco.ios.ios_ntp_global:
+        config: 
+          servers: "{{ ntp_servers }}"
+          source: "{{ ntp_source_interface }}" 
+          update_calendar: true
