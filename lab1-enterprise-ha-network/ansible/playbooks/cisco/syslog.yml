@@ -12,6 +12,6 @@
           source_interface: "{{ syslog_source_interface }}"
           userinfo: true
 
-    - name: Save running to startup when modified
+    - name: Save running to startup when changed
       cisco.ios.ios_config:
-        save_when: modified
+        save_when: changed
