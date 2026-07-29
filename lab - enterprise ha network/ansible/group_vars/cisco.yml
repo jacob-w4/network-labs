@@ -1,10 +1,6 @@
 ---
 ansible_connection: network_cli
 ansible_network_os: ios
-ansible_ssh_user: jakublab
-remote_user: jakublab
+ansible_user: admin
 ansible_ssh_password: lab123
-ansible_become: yes
-ansible_become_password: lab123
-ansible_become_method: enable
 ansible_ssh_common_args: '-o KexAlgorithms=+diffie-hellman-group-sha1,KexAlgorithms=+diffie-hellman-group1-sha1,diffie-hellman-group14-sha1 -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa'
