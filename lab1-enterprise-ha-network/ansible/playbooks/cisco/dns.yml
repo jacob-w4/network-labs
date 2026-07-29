@@ -6,7 +6,7 @@
     - name: Configure DNS on Cisco devices
       cisco.ios.ios_system:
         name_servers: "{{ dns_servers }}"
-      state: replaced
+        state: replaced
   
     - name: Save running to startup when changed
       cisco.ios.ios_config:
