@@ -1,0 +1,34 @@
+---
+- hosts: cisco
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: Configure SNMPv3 "ZABBIX" group on Cisco devices
+      cisco.ios.ios_snmp_server:
+        config:
+          groups:
+            - group: "ZABBIX"
+              version: "v3"
+              version_option: "priv"
+        state: replaced
+    
+    - name: Configure SNMPv3 user on Cisco devices
+      cisco.ios.ios_snmp_server:
+        config:
+          users:
+            - username: "zabbix_lab_user"
+              authentication:
+                algorithm: "sha"
+                password: "lab123auth"
+              encryption:
+                algorithm: "aes"
+                password: "lab123enc"
+              group: "ZABBIX"
+              version: "v3"
+              version_option: "encrypted"
+        state: replaced
+
+    - name: Save running to startup when changed
+      cisco.ios.ios_config:
+        save_when: modified
