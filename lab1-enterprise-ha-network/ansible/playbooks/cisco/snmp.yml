@@ -4,18 +4,13 @@
   gather_facts: no
 
   tasks:
-    - name: Configure SNMPv3 "ZABBIX" group on Cisco devices
+    - name: Configure SNMPv3 "ZABBIX" group and user on Cisco devices
       cisco.ios.ios_snmp_server:
         config:
           groups:
             - group: "ZABBIX"
               version: "v3"
               version_option: "priv"
-        state: replaced
-    
-    - name: Configure SNMPv3 user on Cisco devices
-      cisco.ios.ios_snmp_server:
-        config:
           users:
             - username: "zabbixlab_user"
               group: "ZABBIX"
