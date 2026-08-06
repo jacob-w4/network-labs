@@ -22,11 +22,10 @@
                 algorithm: "sha"
                 password: "lab123auth"
               encryption:
-                algorithm: "aes"
+                priv: "aes"
                 password: "lab123enc"
               group: "ZABBIX"
               version: "v3"
-              version_option: "encrypted"
         state: replaced
 
     - name: Save running to startup when changed
