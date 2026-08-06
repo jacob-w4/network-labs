@@ -26,6 +26,7 @@
               encryption:
                 priv: "aes"
                 password: "lab123enc"
+                priv_option: 128
         state: replaced
 
     - name: Save running to startup when changed
