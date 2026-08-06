@@ -17,15 +17,15 @@
       cisco.ios.ios_snmp_server:
         config:
           users:
-            - username: "zabbix_lab_user"
+            - username: "zabbixlab_user"
+              group: "ZABBIX"
+              version: "v3"            
               authentication:
                 algorithm: "sha"
                 password: "lab123auth"
               encryption:
                 priv: "aes"
                 password: "lab123enc"
-              group: "ZABBIX"
-              version: "v3"
         state: replaced
 
     - name: Save running to startup when changed
