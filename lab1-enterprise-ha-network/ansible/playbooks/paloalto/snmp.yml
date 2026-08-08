@@ -1,0 +1,21 @@
+---
+- hosts: paloalto
+  tasks:
+    - name: Create SNMP profile on PaloAlto devices
+      paloaltonetworks.panos.panos_snmp_profile:
+        provider: "{{ credentials }}"
+        name: "{{ snmp_profile_name }}"
+        version: "v3"
+
+    - name: Configure SNMPv3 on PaloAlto devices
+      paloaltonetworks.panos.panos_snmp_v3_server:
+        provider: "{{ credentials }}"
+        snmp_profile: "{{ snmp_profile_name }}"
+        name: "PA-SNMPv3"
+        user: "{{ snmp_user }}"
+        auth_password: "{{ snmp_auth_pass }}"
+        priv_password: "{{ snmp_priv_pass }}"
+
+    - name: Commit changes on PaloAlto devices
+      paloaltonetworks.panos.panos_commit_firewall:
+        provider: "{{ credentials }}"

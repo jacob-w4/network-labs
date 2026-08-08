@@ -1,0 +1,12 @@
+---
+- hosts: paloalto
+  tasks: 
+    - name: Configure DNS servers on PaloAlto devices
+      paloalto.panos.panos_mgtconfig:
+        provider: "{{ credentials }}"
+        dns_server_primary: "{{ dns_server_primary }}"
+        dns_server_secondary: "{{ dns_server_secondary }}"
+
+    - name: Commit changes on PaloAlto devices
+      paloaltonetworks.panos.panos_commit_firewall:
+        provider: "{{ credentials }}"
