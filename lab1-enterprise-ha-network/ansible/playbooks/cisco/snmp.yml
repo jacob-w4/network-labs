@@ -12,15 +12,15 @@
               version: "v3"
               version_option: "priv"
           users:
-            - username: "zabbixlab_user"
+            - username: "{{ snmp_user }}"
               group: "ZABBIX"
               version: "v3"            
               authentication:
                 algorithm: "sha"
-                password: "lab123auth"
+                password: "{{ snmp_auth_pass }}"
               encryption:
                 priv: "aes"
-                password: "lab123enc"
+                password: "{{ snmp_priv_pass }}"
                 priv_option: 128
         state: replaced
 

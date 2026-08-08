@@ -6,7 +6,10 @@
     - name: Configure NTP on Cisco devices
       cisco.ios.ios_ntp_global:
         config: 
-          servers: "{{ ntp_servers }}"
+          servers: 
+            - server: "{{ ntp_server_primary }}"
+              prefer: true
+            - server: "{{ ntp_server_secondary }}"
           source: "{{ ntp_source_interface }}" 
           update_calendar: true
         state: replaced

@@ -1,5 +1,8 @@
 ---
 ansible_connection: local
-ansible_network_os: paloaltonetworks.panos.panos
-ansible_user: jakublab
-ansible_password: lab123
+credentials:
+  ip_address: "{{ ansible_host }}"
+  username: admin
+  password: Testtest123
+
+snmp_profile_name: Zabbix_SNMPv3

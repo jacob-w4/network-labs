@@ -1,12 +1,15 @@
 ---
-dns_servers:
-  - 8.8.8.8
-  - 1.1.1.1
+dns_server_primary: 8.8.8.8
+dns_server_secondary: 1.1.1.1
 
-ntp_servers:
-  - server: time.google.com
-    prefer: true
-  - server: time.cloudflare.com
-  - server: time.windows.com
+
+ntp_server_primary: time.google.com
+ntp_server_secondary: time.windows.com
+
+
+snmp_user: zabbixlab_user
+snmp_auth_pass: lab123auth
+snmp_priv_pass: lab123enc
+
 
 syslog_server_ip: 10.1.30.150
