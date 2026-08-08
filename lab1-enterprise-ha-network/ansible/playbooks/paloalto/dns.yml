@@ -2,7 +2,7 @@
 - hosts: paloalto
   tasks: 
     - name: Configure DNS servers on PaloAlto devices
-      paloalto.panos.panos_mgtconfig:
+      paloaltonetworks.panos.panos_mgtconfig:
         provider: "{{ credentials }}"
         dns_server_primary: "{{ dns_server_primary }}"
         dns_server_secondary: "{{ dns_server_secondary }}"
