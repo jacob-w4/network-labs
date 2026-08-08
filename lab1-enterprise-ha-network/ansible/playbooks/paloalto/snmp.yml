@@ -11,6 +11,7 @@
       paloaltonetworks.panos.panos_snmp_v3_server:
         provider: "{{ credentials }}"
         snmp_profile: "{{ snmp_profile_name }}"
+        manager: "10.1.30.150"
         name: "PA-SNMPv3"
         user: "{{ snmp_user }}"
         auth_password: "{{ snmp_auth_pass }}"
