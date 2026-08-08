@@ -1,0 +1,168 @@
+Building configuration...
+
+  
+Current configuration : 2895 bytes
+!
+! Last configuration change at 17:18:18 CEST Sat Aug 8 2026 by jakublab
+! NVRAM config last updated at 17:13:57 CEST Sat Aug 8 2026 by jakublab
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname R2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 9 $9$TAh2E20lJE.RF9$818SuHaXdE9Y0vrPjKoAWYKiIaXCtAJACiOv8j.GDxE
+!
+no aaa new-model
+!
+!
+!
+clock timezone CET 1 0
+clock summer-time CEST recurring last Sun Mar 2:00 last Sun Oct 3:00
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip domain name local.lab
+ip name-server 8.8.8.8
+ip name-server 1.1.1.1
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username jakublab privilege 15 secret 9 $9$ZO35Zmz8Irsblf$RL5r.1JFxApJHA0kV/WchksmyNUhQgh57Wv4Q.B3dCU
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ ip address 10.0.0.227 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 10.0.0.26 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ ip ospf message-digest-key 1 md5 7 0703204E1F5B4A
+ ip ospf network point-to-point
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 10.0.0.34 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ ip ospf message-digest-key 1 md5 7 03085A09575D72
+ ip ospf network point-to-point
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address dhcp
+ ip nat outside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 1
+ router-id 10.0.0.227
+ auto-cost reference-bandwidth 1000
+ area 0 authentication message-digest
+ passive-interface default
+ no passive-interface GigabitEthernet0/0
+ no passive-interface GigabitEthernet0/1
+ network 10.0.0.26 0.0.0.0 area 0
+ network 10.0.0.34 0.0.0.0 area 0
+ network 10.0.0.227 0.0.0.0 area 0
+ default-information originate
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip nat inside source list NAT interface GigabitEthernet0/2 overload
+ip route 0.0.0.0 0.0.0.0 GigabitEthernet0/2 192.168.1.1
+ip ssh time-out 40
+ip ssh version 2
+!
+ip access-list standard NAT
+ permit 10.0.0.0 0.255.255.255
+!
+logging source-interface Loopback1
+logging host 10.1.30.150
+ipv6 ioam timestamp
+!
+snmp-server group ZABBIX v3 priv 
+snmp-server chassis-id 
+!
+!
+control-plane
+!
+banner login ^CUnauthorized access is forbidden!^C
+!
+line con 0
+ password 7 082D4D4C584B56
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ logging synchronous
+ login local
+ transport input ssh
+line vty 5 15
+ logging synchronous
+ login local
+ transport input ssh
+!
+no scheduler allocate
+ntp source Loopback1
+ntp update-calendar
+ntp server time.cloudflare.com
+ntp server time.google.com prefer
+ntp server time.windows.com
+!
+end

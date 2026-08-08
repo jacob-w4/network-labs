@@ -1,0 +1,248 @@
+Building configuration...
+
+Current configuration : 5052 bytes
+!
+! Last configuration change at 17:18:17 CEST Sat Aug 8 2026 by jakublab
+! NVRAM config last updated at 17:14:35 CEST Sat Aug 8 2026 by jakublab
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname DSW-1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 9 $9$J2NDMYoVUX4gt9$pvEdyAG5NA9PmQ4kWqU.EbJCmWBj5puKJ5IFmheaF4w
+!
+username jakublab privilege 15 secret 9 $9$QShEIRKykyW4x9$IQwMA/FTzGIXyqXw5ryNsPohq3Li7jku.FvYVaj2neg
+no aaa new-model
+clock timezone CET 1 0
+clock summer-time CEST recurring last Sun Mar 2:00 last Sun Oct 3:00
+!
+!
+!
+!
+!
+vtp mode off
+!
+!
+!
+ip domain-name local.lab
+ip name-server 8.8.8.8
+ip name-server 1.1.1.1
+ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode mst
+spanning-tree extend system-id
+!
+spanning-tree mst configuration
+ name LAB
+ instance 1 vlan 10, 20
+ instance 2 vlan 30, 99
+!
+spanning-tree mst 0-1 priority 0
+spanning-tree mst 2 priority 8192
+!
+!
+vlan 10
+ name Users
+!
+vlan 20
+ name Phones
+!
+vlan 30
+ name Servers
+!
+vlan 99
+ name Management
+!
+track 1 list boolean or
+ object 2
+ object 3
+!
+track 2 interface GigabitEthernet0/2 line-protocol
+!
+track 3 interface GigabitEthernet0/3 line-protocol
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ ip address 10.0.0.228 255.255.255.255
+!
+interface Port-channel1
+ switchport trunk allowed vlan 10,20,30,99
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 95
+ switchport mode trunk
+ switchport nonegotiate
+!
+interface GigabitEthernet0/0
+ switchport trunk allowed vlan 10,20,30,99
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 95
+ switchport mode trunk
+ switchport nonegotiate
+ negotiation auto
+ spanning-tree guard root
+!
+interface GigabitEthernet0/1
+ switchport trunk allowed vlan 10,20,30,99
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 95
+ switchport mode trunk
+ switchport nonegotiate
+ negotiation auto
+ spanning-tree guard root
+!
+interface GigabitEthernet0/2
+ no switchport
+ ip address 10.0.0.1 255.255.255.252
+ ip ospf message-digest-key 1 md5 7 060A0E231D1C5A
+ ip ospf network point-to-point
+ negotiation auto
+!
+interface GigabitEthernet0/3
+ no switchport
+ ip address 10.0.0.5 255.255.255.252
+ ip ospf message-digest-key 1 md5 7 020A05595A545C
+ ip ospf network point-to-point
+ negotiation auto
+!
+interface GigabitEthernet1/0
+ switchport trunk allowed vlan 10,20,30,99
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 95
+ switchport mode trunk
+ switchport nonegotiate
+ negotiation auto
+ spanning-tree guard root
+!
+interface GigabitEthernet1/1
+ switchport trunk allowed vlan 10,20,30,99
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 95
+ switchport mode trunk
+ switchport nonegotiate
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/2
+ switchport trunk allowed vlan 10,20,30,99
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 95
+ switchport mode trunk
+ switchport nonegotiate
+ negotiation auto
+ channel-protocol lacp
+ channel-group 1 mode active
+!
+interface GigabitEthernet1/3
+ switchport trunk allowed vlan 10,20,30,99
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 95
+ switchport mode trunk
+ switchport nonegotiate
+ negotiation auto
+ channel-protocol lacp
+ channel-group 1 mode active
+!
+interface Vlan10
+ ip address 10.1.10.2 255.255.255.0
+ ip helper-address 10.1.30.150 
+ vrrp 10 ip 10.1.10.1
+ vrrp 10 priority 150
+ vrrp 10 track 1 decrement 100
+!
+interface Vlan20
+ ip address 10.1.20.2 255.255.255.0
+ ip helper-address 10.1.30.150 
+ vrrp 20 ip 10.1.20.1
+ vrrp 20 priority 150
+ vrrp 20 track 1 decrement 100
+!
+interface Vlan30
+ ip address 10.1.30.2 255.255.255.0
+ vrrp 30 ip 10.1.30.1
+!
+interface Vlan99
+ ip address 10.1.99.2 255.255.255.0
+ ip helper-address 10.1.30.150 
+ vrrp 99 ip 10.1.99.1
+!
+router ospf 1
+ router-id 10.0.0.228
+ auto-cost reference-bandwidth 1000
+ area 0 authentication message-digest
+ passive-interface default
+ no passive-interface GigabitEthernet0/2
+ no passive-interface GigabitEthernet0/3
+ network 10.0.0.1 0.0.0.0 area 0
+ network 10.0.0.5 0.0.0.0 area 0
+ network 10.0.0.228 0.0.0.0 area 0
+ network 10.1.10.2 0.0.0.0 area 0
+ network 10.1.20.2 0.0.0.0 area 0
+ network 10.1.30.2 0.0.0.0 area 0
+ network 10.1.99.2 0.0.0.0 area 0
+!
+ip forward-protocol nd
+!
+ip http server
+ip http secure-server
+!
+ip ssh time-out 40
+ip ssh version 2
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+logging source-interface Vlan99
+logging host 10.1.30.150
+!
+!
+!
+snmp-server group ZABBIX v3 priv 
+!
+control-plane
+!
+banner login ^CUnauthorized access is forbidden!^C
+!
+line con 0
+ password 7 00081204550958
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ logging synchronous
+ login local
+ transport input ssh
+line vty 5 15
+ logging synchronous
+ login local
+ transport input ssh
+!
+ntp source Vlan99
+ntp update-calendar
+ntp server time.cloudflare.com
+ntp server time.windows.com
+ntp server time.google.com prefer
+!
+end

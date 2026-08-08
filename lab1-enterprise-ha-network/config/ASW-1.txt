@@ -1,0 +1,162 @@
+Building configuration...
+
+Current configuration : 2732 bytes
+!
+! Last configuration change at 17:18:16 CEST Sat Aug 8 2026 by jakublab
+! NVRAM config last updated at 17:13:58 CEST Sat Aug 8 2026 by jakublab
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname ASW-1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 9 $9$8aVP0iYbJu3awP$cf6guz0MqJJy48Lgn.s.GFbzcFoVolzN9nzxOkEdz.s
+!
+username jakublab privilege 15 secret 9 $9$Rrym3S17w8E.Df$cORa/MG0gG8ozS6N2x0SaGOrUeg/bFpzdgNGA2HOYfA
+no aaa new-model
+clock timezone CET 1 0
+clock summer-time CEST recurring last Sun Mar 2:00 last Sun Oct 3:00
+!
+!
+!
+!
+!
+vtp mode off
+no ip routing
+!
+!
+!
+ip domain-name local.lab
+ip name-server 8.8.8.8
+ip name-server 1.1.1.1
+no ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode mst
+spanning-tree portfast edge default
+spanning-tree portfast edge bpduguard default
+spanning-tree extend system-id
+!
+spanning-tree mst configuration
+ name LAB
+ instance 1 vlan 10, 20
+ instance 2 vlan 30, 99
+!
+!
+!
+vlan 10
+ name Users
+!
+vlan 20
+ name Phones
+!
+vlan 30
+ name Servers
+!
+vlan 99
+ name Management
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ switchport access vlan 10
+ switchport mode access
+ switchport voice vlan 20
+ negotiation auto
+ spanning-tree portfast edge
+!
+interface GigabitEthernet0/1
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet0/2
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet0/3
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/0
+ switchport trunk allowed vlan 10,20,30,99
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 95
+ switchport mode trunk
+ switchport nonegotiate
+ negotiation auto
+!
+interface GigabitEthernet1/1
+ switchport trunk allowed vlan 10,20,30,99
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 95
+ switchport mode trunk
+ switchport nonegotiate
+ negotiation auto
+!
+interface Vlan99
+ ip address 10.1.99.4 255.255.255.0
+!
+ip default-gateway 10.1.99.1
+ip forward-protocol nd
+!
+ip http server
+ip http secure-server
+!
+ip ssh time-out 40
+ip ssh version 2
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+logging source-interface Vlan99
+logging host 10.1.30.150
+!
+!
+!
+snmp-server group ZABBIX v3 priv 
+!
+control-plane
+!
+banner login ^CUnauthorized access is forbidden!^C
+!
+line con 0
+ password 7 1042081B544541
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ logging synchronous
+ login local
+ transport input ssh
+line vty 5 15
+ logging synchronous
+ login local
+ transport input ssh
+!
+ntp source Vlan99
+ntp update-calendar
+ntp server time.windows.com
+ntp server time.cloudflare.com
+ntp server time.google.com prefer
+!
+end
