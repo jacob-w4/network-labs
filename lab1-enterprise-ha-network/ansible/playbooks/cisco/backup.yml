@@ -5,5 +5,5 @@
       cisco.ios.ios_config:
         backup: true
         backup_options:
-          dir_path: "/~/networks-labs/lab1-enterprise-ha-network/config/"
+          dir_path: "/~/network-labs/lab1-enterprise-ha-network/config/"
           filename: "{{ inventory_hostname }}.txt"
