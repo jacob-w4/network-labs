@@ -2,7 +2,7 @@
 - hosts: paloalto
   tasks: 
     - name: Configure NTP servers and timezone on PaloAlto devices
-      paloalto.panos.panos_mgtconfig:
+      paloaltonetworks.panos.panos_mgtconfig:
         provider: "{{ credentials }}"
         ntp_server_primary: "{{ ntp_server_primary }}"
         ntp_server_secondary: "{{ ntp_server_secondary }}"
