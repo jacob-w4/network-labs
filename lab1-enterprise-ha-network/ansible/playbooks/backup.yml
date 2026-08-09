@@ -1,0 +1,19 @@
+---
+- hosts: cisco
+  tasks:
+    - name: Create Cisco running-config backups
+      cisco.ios.ios_config:
+        backup: true
+        backup_options:
+          dir_path: "/root/network/backup/{{ inventory_hostname }}/"
+          filename: "{{inventory_hostname}}_{{ now(fmt='%d-%m-%Y_%H-%M-%S') }}.txt"
+
+- hosts: paloalto
+  tasks:
+    - name: Create PA running-config backups
+      paloaltonetworks.panos.panos_export:
+        provider: "{{ credentials }}"
+        category: "configuration"
+        create_directory: true
+        filename: "/root/network/backup/{{ inventory_hostname }}/{{inventory_hostname}}_{{ now(fmt='%d-%m-%Y_%H-%M-%S') }}.xml"
+
