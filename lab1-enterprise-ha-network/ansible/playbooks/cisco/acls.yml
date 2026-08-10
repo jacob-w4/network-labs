@@ -49,12 +49,12 @@
     - name: Assign VLAN10-USER-POLICY ACL to Vlan10 inbound on distribution switches
       cisco.ios.ios_acl_interfaces:
         config:
-            name: Vlan10
-            access_group:
-              - afi: ipv4
-                acls:
-                  - name: VLAN10-USER-POLICY
-                    direction: in
+          name: Vlan10
+          access_group:
+            - afi: ipv4
+              acls:
+                - name: VLAN10-USER-POLICY
+                  direction: in
         state: replaced
 
     - name: Save running to startup when changed
