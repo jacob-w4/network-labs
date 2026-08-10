@@ -1,9 +1,0 @@
----
-- hosts: cisco
-  tasks:
-    - name: Delete exec banner on Cisco devices
-      cisco.ios.ios_config:
-        lines:
-          - no banner exec
-          - no banner incoming
-        save_when: modified

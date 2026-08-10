@@ -1,9 +1,0 @@
----
-- hosts: cisco
-  tasks:
-    - name: Create running-config backups
-      cisco.ios.ios_config:
-        backup: true
-        backup_options:
-          dir_path: "/root/network-labs/lab1-enterprise-ha-network/config/"
-          filename: "{{ inventory_hostname }}.txt"
