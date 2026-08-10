@@ -55,7 +55,7 @@
       cisco.ios.ios_acl_interfaces:
         config:
           - name: Vlan10
-            access_group:
+            access_groups:
               - afi: ipv4
                 acls:
                   - name: VLAN10-USER-POLICY
