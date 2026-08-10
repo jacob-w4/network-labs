@@ -12,21 +12,21 @@
                   - grant: "permit"
                     protocol: "udp"
                     source:
-                      address: "10.1.10.0"
-                      wildcard_bits: "0.0.0.255"
+                      any: true
                     destination:
-                      host: "10.1.30.150"
+                      any: true
                       port_protocol:
                         eq: "bootpc"
+
                   - grant: "permit"
                     protocol: "udp"
                     source:
-                      address: "10.1.10.0"
-                      wildcard_bits: "0.0.0.255"
+                      any: true
                     destination:
-                      host: "10.1.30.150"
+                      any: true
                       port_protocol:
                         eq: "bootps"
+
                   - grant: "permit"
                     protocol: "tcp"
                     source:
@@ -36,6 +36,7 @@
                       host: "10.1.30.150"
                       port_protocol:
                         eq: "8080"
+
                   - grant: "deny"
                     protocol: "ip"
                     source:
@@ -44,6 +45,7 @@
                     destination:
                       address: "10.1.99.0"
                       wildcard_bits: "0.0.0.255"
+
                   - grant: "deny"
                     protocol: "ip"
                     source:
@@ -52,6 +54,7 @@
                     destination:
                       address: "10.1.30.0"
                       wildcard_bits: "0.0.0.255"
+
                   - grant: "deny"
                     protocol: "ip"
                     source:
@@ -60,6 +63,7 @@
                     destination:
                       address: "10.1.20.0"
                       wildcard_bits: "0.0.0.255"
+
                   - grant: "permit"
                     protocol: "ip"
                     source:
