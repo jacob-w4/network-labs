@@ -1,0 +1,9 @@
+---
+- hosts: cisco
+  tasks:
+    - name: Delete vIOS banners on Cisco devices
+      cisco.ios.ios_config:
+        lines:
+          - no banner exec
+          - no banner incoming
+        save_when: modified
