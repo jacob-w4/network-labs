@@ -49,7 +49,7 @@
                       wildcard_bits: "0.0.0.255"
                     destination:
                       any: true
-        state: merged
+        state: replaced
 
     - name: Assign VLAN10-USER-POLICY ACL to Vlan10 inbound on distribution switches
       cisco.ios.ios_acl_interfaces:
