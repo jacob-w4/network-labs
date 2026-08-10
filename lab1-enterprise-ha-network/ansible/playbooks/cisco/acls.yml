@@ -10,6 +10,24 @@
                 acl_type: "extended"
                 aces:
                   - grant: "permit"
+                    protocol: "udp"
+                    source:
+                      address: "10.1.10.0"
+                      wildcard_bits: "0.0.0.255"
+                    destination:
+                      host: "10.1.30.150"
+                    port_protocol:
+                      eq: "bootpc"
+                  - grant: "permit"
+                    protocol: "udp"
+                    source:
+                      address: "10.1.10.0"
+                      wildcard_bits: "0.0.0.255"
+                    destination:
+                      host: "10.1.30.150"
+                    port_protocol:
+                      eq: "bootps"
+                  - grant: "permit"
                     protocol: "tcp"
                     source:
                       address: "10.1.10.0"
