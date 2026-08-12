@@ -1,5 +1,6 @@
 ---
 - hosts: cisco
+  gather_facts: false
   tasks:
     - name: Delete vIOS banners on Cisco devices
       cisco.ios.ios_config:
