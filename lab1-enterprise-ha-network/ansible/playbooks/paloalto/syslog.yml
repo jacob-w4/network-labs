@@ -14,3 +14,7 @@
         name: "linux-syslog-server"
         server: "{{ syslog_server_ip }}"
         syslog_port: 514
+
+    - name: Commit changes on PaloAlto devices
+      paloaltonetworks.panos.panos_commit_firewall:
+        provider: "{{ credentials }}"
