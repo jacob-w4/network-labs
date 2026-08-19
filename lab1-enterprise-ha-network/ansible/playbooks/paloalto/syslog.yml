@@ -1,0 +1,16 @@
+---
+- hosts: paloalto
+  gather_facts: false
+  tasks:
+    - name: Create PA syslog profile
+      paloaltonetworks.panos.panos_syslog_profile:
+        provider: "{{ credentials }}"
+        name: "syslog-profile"
+
+    - name: Configure PA syslog server
+      paloaltonetworks.panos.panos_syslog_server:
+        provider: "{{ credentials }}"
+        syslog_profile: "syslog-profile"
+        name: "linux-syslog-server"
+        server: "{{ syslog_server_ip }}"
+        syslog_port: 514
