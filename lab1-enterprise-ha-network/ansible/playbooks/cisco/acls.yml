@@ -1,7 +1,7 @@
 ---
 - hosts: distribution_switches
   tasks:
-    - name: "[VLAN10] Configure ACL permiting ZABBIX, DHCP, internet traffic on distribution switches"
+    - name: "[VLAN10] Configure ACL permiting DHCP, internet traffic on distribution switches"
       cisco.ios.ios_acls:
         config:
           - afi: "ipv4"
@@ -26,16 +26,6 @@
                       any: true
                       port_protocol:
                         eq: "bootps"
-
-                  - grant: "permit"
-                    protocol: "tcp"
-                    source:
-                      address: "10.1.10.0"
-                      wildcard_bits: "0.0.0.255"
-                    destination:
-                      host: "10.1.30.150"
-                      port_protocol:
-                        eq: "8080"
 
                   - grant: "deny"
                     protocol: "ip"
