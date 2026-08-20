@@ -1,14 +1,14 @@
 Building configuration...
 
   
-Current configuration : 2895 bytes
+Current configuration : 2940 bytes
 !
-! Last configuration change at 17:18:17 CEST Sat Aug 8 2026 by jakublab
-! NVRAM config last updated at 17:13:59 CEST Sat Aug 8 2026 by jakublab
+! Last configuration change at 13:19:58 CEST Thu Aug 20 2026 by jakublab
+! NVRAM config last updated at 13:18:18 CEST Thu Aug 20 2026 by jakublab
 !
 version 15.9
 service timestamps debug datetime msec
-service timestamps log datetime msec
+service timestamps log datetime localtime
 service password-encryption
 !
 hostname R1
@@ -55,6 +55,8 @@ username jakublab privilege 15 secret 9 $9$Gb81EAiAjooltP$3bt1GeXZ.mVBWYUhAlB.XQ
 !
 redundancy
 !
+lldp run
+no cdp run
 !
 ! 
 !
@@ -99,6 +101,7 @@ interface GigabitEthernet0/2
  duplex auto
  speed auto
  media-type rj45
+ no lldp transmit
 !
 interface GigabitEthernet0/3
  no ip address

@@ -1,12 +1,13 @@
 Building configuration...
 
-Current configuration : 4982 bytes
+Current configuration : 5333 bytes
 !
-! Last configuration change at 17:17:06 CEST Sat Aug 8 2026 by jakublab
+! Last configuration change at 13:21:01 CEST Thu Aug 20 2026 by jakublab
+! NVRAM config last updated at 13:21:11 CEST Thu Aug 20 2026 by jakublab
 !
 version 15.2
 service timestamps debug datetime msec
-service timestamps log datetime msec
+service timestamps log datetime localtime
 service password-encryption
 service compress-config
 !
@@ -62,6 +63,8 @@ vlan 30
 !
 vlan 99
  name Management
+lldp run
+no cdp run
 !
 track 1 list boolean or
  object 2
@@ -101,7 +104,6 @@ interface GigabitEthernet0/0
  switchport mode trunk
  switchport nonegotiate
  negotiation auto
- spanning-tree guard root
 !
 interface GigabitEthernet0/1
  switchport trunk allowed vlan 10,20,30,99
@@ -110,7 +112,6 @@ interface GigabitEthernet0/1
  switchport mode trunk
  switchport nonegotiate
  negotiation auto
- spanning-tree guard root
 !
 interface GigabitEthernet0/2
  no switchport
@@ -133,7 +134,6 @@ interface GigabitEthernet1/0
  switchport mode trunk
  switchport nonegotiate
  negotiation auto
- spanning-tree guard root
 !
 interface GigabitEthernet1/1
  switchport trunk allowed vlan 10,20,30,99
@@ -166,6 +166,7 @@ interface GigabitEthernet1/3
 !
 interface Vlan10
  ip address 10.1.10.3 255.255.255.0
+ ip access-group VLAN10-USER-POLICY in
  ip helper-address 10.1.30.150 
  vrrp 10 ip 10.1.10.1
 !
@@ -212,6 +213,13 @@ ip ssh version 2
 ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
 ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
 !
+ip access-list extended VLAN10-USER-POLICY
+ permit udp any any eq bootpc
+ permit udp any any eq bootps
+ deny   ip 10.1.10.0 0.0.0.255 10.1.99.0 0.0.0.255
+ deny   ip 10.1.10.0 0.0.0.255 10.1.30.0 0.0.0.255
+ deny   ip 10.1.10.0 0.0.0.255 10.1.20.0 0.0.0.255
+ permit ip 10.1.10.0 0.0.0.255 any
 !
 logging source-interface Vlan99
 logging host 10.1.30.150
@@ -240,8 +248,8 @@ line vty 5 15
 !
 ntp source Vlan99
 ntp update-calendar
-ntp server time.cloudflare.com
 ntp server time.google.com prefer
+ntp server time.cloudflare.com
 ntp server time.windows.com
 !
 end

@@ -1,13 +1,13 @@
 Building configuration...
 
-Current configuration : 2706 bytes
+Current configuration : 2733 bytes
 !
-! Last configuration change at 17:18:16 CEST Sat Aug 8 2026 by jakublab
-! NVRAM config last updated at 17:13:44 CEST Sat Aug 8 2026 by jakublab
+! Last configuration change at 13:19:56 CEST Thu Aug 20 2026 by jakublab
+! NVRAM config last updated at 13:18:19 CEST Thu Aug 20 2026 by jakublab
 !
 version 15.2
 service timestamps debug datetime msec
-service timestamps log datetime msec
+service timestamps log datetime localtime
 service password-encryption
 service compress-config
 !
@@ -64,6 +64,8 @@ vlan 30
 !
 vlan 99
  name Management
+lldp run
+no cdp run
 !
 ! 
 !
@@ -154,8 +156,8 @@ line vty 5 15
 !
 ntp source Vlan99
 ntp update-calendar
-ntp server time.google.com prefer
-ntp server time.cloudflare.com
 ntp server time.windows.com
+ntp server time.cloudflare.com
+ntp server time.google.com prefer
 !
 end
