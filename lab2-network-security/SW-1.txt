@@ -1,0 +1,196 @@
+Building configuration...
+
+Current configuration : 4533 bytes
+!
+! Last configuration change at 09:47:30 UTC Sun Oct 25 2026 by jakub
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname SW-1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 9 $9$Rx48g.s1Y5fSCP$iZNFSp98JPW9N0WlpsS.f4RY30PAsyFZgBhoQYhgnmA
+!
+username jakub privilege 15 secret 9 $9$1J814Cmni.Kbgv$B9MhznSR/.I93p1NzEGeKxT0ZfT5kT2LvLDbF64s6xg
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authentication dot1x default group radius
+!
+!
+!
+!
+!
+!
+aaa session-id common
+!
+!
+!
+!
+!
+vtp mode off
+!
+ip dhcp excluded-address 172.17.10.0 172.17.10.10
+ip dhcp excluded-address 172.17.99.0 172.17.99.10
+ip dhcp excluded-address 172.17.20.1 172.17.20.10
+!
+ip dhcp pool VLAN10
+ network 172.17.10.0 255.255.255.0
+ default-router 172.17.10.1
+ dns-server 172.17.30.5
+!
+ip dhcp pool VLAN99
+ network 172.17.99.0 255.255.255.0
+ dns-server 8.8.8.8
+ default-router 172.17.99.1
+!
+ip dhcp pool VLAN20
+ network 172.17.20.0 255.255.255.0
+ default-router 172.17.20.1
+ dns-server 172.17.30.5
+!
+!
+ip domain-name lab.local
+ip cef
+no ipv6 cef
+!
+!
+dot1x system-auth-control
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+!
+vlan 10
+ name Users
+!
+vlan 20
+ name Admins
+!
+vlan 30
+ name Servers
+!
+vlan 99
+ name Management
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ switchport access vlan 10
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+ authentication port-control auto
+ dot1x pae authenticator
+ spanning-tree portfast edge
+!
+interface GigabitEthernet0/1
+ switchport access vlan 30
+ switchport mode access
+ negotiation auto
+ spanning-tree portfast edge
+!
+interface GigabitEthernet0/2
+ switchport mode access
+ shutdown
+ negotiation auto
+ spanning-tree portfast edge
+!
+interface GigabitEthernet0/3
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/0
+ no switchport
+ ip address 172.17.0.1 255.255.255.252
+ negotiation auto
+!
+interface GigabitEthernet1/1
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/2
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/3
+ shutdown
+ negotiation auto
+!
+interface Vlan10
+ ip address 172.17.10.1 255.255.255.0
+ ip access-group VLAN10-TRAFFIC in
+!
+interface Vlan20
+ ip address 172.17.20.1 255.255.255.0
+!
+interface Vlan30
+ ip address 172.17.30.1 255.255.255.0
+!
+interface Vlan99
+ ip address 172.17.99.1 255.255.255.0
+!
+ip forward-protocol nd
+!
+ip http server
+ip http secure-server
+!
+ip route 0.0.0.0 0.0.0.0 172.17.0.2
+ip ssh time-out 60
+ip ssh version 2
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+ip access-list extended VLAN10-TRAFFIC
+ permit ip 172.17.10.0 0.0.0.255 host 172.17.30.5
+ deny   ip 172.17.10.0 0.0.0.255 172.17.30.0 0.0.0.255
+ deny   ip 172.17.10.0 0.0.0.255 172.17.20.0 0.0.0.255
+ deny   ip 172.17.10.0 0.0.0.255 172.17.99.0 0.0.0.255
+ permit ip any any
+!
+ip radius source-interface Vlan30
+!
+!
+!
+!
+!
+radius server NPS-RADIUS
+ address ipv4 172.17.30.5 auth-port 1812 acct-port 1813
+ key 7 073B245F5A584B56
+!
+!
+control-plane
+!
+!
+line con 0
+ password 7 151E0A0E557878
+ logging synchronous
+line aux 0
+line vty 0 4
+ logging synchronous
+ transport input ssh
+line vty 5 15
+ logging synchronous
+ transport input ssh
+!
+!
+end
